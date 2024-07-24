@@ -38,7 +38,7 @@ const createTable = async (req, res) => {
       }
     });
 
-    const result = await await sequelize.queryInterface.createTable(
+    const result = await sequelize.queryInterface.createTable(
       "ut_" + tableName,
       fields
     );
@@ -53,10 +53,50 @@ const showTableInfo = async (req, res) => {
   try {
     const tableName = req.params.table;
 
-    const result = await await sequelize.queryInterface.describeTable(
+    const result = await sequelize.queryInterface.describeTable(
       "ut_" + tableName
     );
 
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const addColumn = async (req, res) => {
+  try {
+    const columnName = req.body.name;
+    const columnType = req.body.type;
+    const tableName = req.body.tableName;
+
+    let sqType;
+
+    if (columnType === "string") {
+      sqType = DataTypes.STRING;
+    }
+
+    const result = await sequelize.queryInterface.addColumn(
+      "ut_" + tableName,
+      columnName,
+      {
+        type: sqType,
+      }
+    );
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+const removeColumn = async (req, res) => {
+  try {
+    const columnName = req.body.name;
+    const tableName = req.body.tableName;
+
+    const result = await sequelize.queryInterface.removeColumn(
+      "ut_" + tableName,
+      columnName
+    );
     res.status(200).send(result);
   } catch (error) {
     res.status(500).send(error.message);
@@ -67,4 +107,6 @@ module.exports = {
   getTableList,
   createTable,
   showTableInfo,
+  addColumn,
+  removeColumn,
 };
