@@ -1,4 +1,5 @@
 import { useState } from "react";
+import userService from "../services/user.service";
 
 export default function Register() {
   const [firstName, setFirstName] = useState("");
@@ -6,21 +7,20 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`The name you entered was: `, {
-      firstName,
-      lastName,
-      email,
-      password,
-    });
+    try {
+      await userService.registerUser({ firstName, lastName, email, password });
+    } catch (error) {
+      console.error("There was an error making the POST request!", error);
+    }
   };
 
   return (
     <>
       <div className="w3-row">
         <div className="w3-col s12">
-          <h1 className="w3-center">Wind Table</h1>
+          <h1 className="w3-center">WindTable</h1>
         </div>
       </div>
       <div className="w3-row">
