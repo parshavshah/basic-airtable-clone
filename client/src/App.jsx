@@ -7,6 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,9 +15,9 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

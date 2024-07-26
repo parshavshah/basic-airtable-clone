@@ -20,4 +20,20 @@ const registerUser = async ({ firstName, lastName, email, password }) => {
   return response;
 };
 
-export default { registerUser };
+const loginUser = async ({ firstName, lastName, email, password }) => {
+  let response = {};
+
+  try {
+    response = await axios.post(`${baseUrl}/user/login`, {
+      email,
+      password,
+    });
+    console.log("API Response :: ", response);
+  } catch (error) {
+    console.error("There was an error making the POST request!", error);
+  }
+
+  return response;
+};
+
+export default { registerUser,loginUser };
