@@ -1,14 +1,18 @@
 import { useState } from "react";
 import userService from "../services/user.service";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigateTo = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await userService.loginUser({ email, password });
+      const { token } = await userService.loginUser({ email, password });
+      localStorage.setItem("token", token);
+      navigateTo("/u/create-table");
     } catch (error) {
       console.error("There was an error making the POST request!", error);
     }
